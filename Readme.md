@@ -52,3 +52,11 @@
     - Default EBS Volume is 8GB, SSD (GP2)
     - Tags allow to classify or identify the instance
     - A security group is a set of firewall rules that control the traffic for your instance. 
+
+# SSH 
+    - Works for MAc, Linux and Windows >=10
+    - Windows<10 use putty 
+    - Another alternative EC2 connect directly on the browser
+    - SSH allows you to connect and control the remote machine using the command line.
+    - ssh ec2-user@IP -i path of your PEM File.
+    - ``` ssh ec2-user@13.229.183.124 -i ~/Downloads/my-first-instance-feb12-learning.pem ```
