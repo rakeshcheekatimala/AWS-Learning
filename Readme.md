@@ -214,6 +214,7 @@
             -  Same Rack,Same AZ.
             - If Rack fails, all instances fail at the same time.
             - Greate network,useful for big data job,extreme low latency, high bandwidth.
+            - Not available for T2 micro.
         - Spread - spreads instances across underlying hardware ( max 7 per AZ) - critical apps.
             - Minimise the risk, located in different hardware.
             - Reduce risk of hardware failure.
@@ -229,3 +230,26 @@
             - Distributed Big Data applciations such as HDFS,HBase,Cassandra,Kafka usecases.
             - The instance in partition don't share racks with the another instance in other partition.
 
+# ENI (Elastic Network Interface)
+    - They give access to network for ec2 isntance. EthO primary ENI.
+    - ENI can have one primary private IPV4 , one or more secondary IPV4
+    - One Elastic IP per private IPV4.
+    - One Public IPV4
+    - One ore more SG's, add MAC address.
+    - Virutal network card.
+    - Bound to specific AZ.
+    - You can create ENI independently and attach them on the fly on EC2 instanaces for failover.
+
+# EC2 Hibernate
+    - Stop , the data on disk is kept intact in the next start.
+    - Terminate any EBS volumes to be destoryed.
+    - On start , os boots &EC2 User Data script is ruuning.
+    - application starts, caches gets warmed up.
+    - EC2 Hibernate, in memory (RAM) is preserved. During the re-start the boost is much faster.
+    - RAM is written to a file in the root EBS volume.
+    - Root EBS volume must be encrypted.
+    - Supported instances C,M and R
+    - Instance RAM size must be less than 150 GB.
+    - Not supported for bare metal instances.
+    - Available for On-Demand and Reserved Instances.
+    - Hibernate can't more than 60 days.
