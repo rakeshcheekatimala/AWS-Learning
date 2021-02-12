@@ -139,12 +139,27 @@
     # EC2 Spot Instances
         - Upto 90% discount, can loose at anytime.
         - Most effecient cost instances in AWS.
+        - 2 minutes grace spot price>max pirce.
+        - Spot Block, block instance for 1 to 6 hours without interruptions.
         - Can loose instance if max prices is less than current spot price.
         -  Useful for
             - Batch jobs
             -   Data Analysis
             - Image processing
             - Not good for critical jobs
+        - Two types of request
+            - one time
+            - persistent valid from , valid until
+        - maximum price, desired no of instances
+        - To termiante the spot instance cancel the spot request and then terminate the instance.
+        - To cancel spot instance they have to be active/open/disabed state.
+        - Spot Fleets = set of Spot Instances + Optional OnDemand Instances.
+        - Try to meet target capacity  with price constraints.
+        - Stategies to allocate Spot Instances:
+            - lowestPrice: from the pool with the lowest price.
+            - diversified: distributed across all pools (great for availability),long work loads.
+        - Spot Fleets allows us to automatically request spot instance with request price.
+
     # EC2 Dedicated Host
         - Physical dedicated EC2 server for you use.
         - Full control of EC2 instance placement.
@@ -157,3 +172,60 @@
         - May share hardware with other instances in same account.
         - No control over instance placement (can move hardware after Stop/Start).
     
+    # EC2 Instance Types - Main Ones
+
+        - R applications that needs lot of RAM  - In memory caches, In memory databases.
+        - C applications that needs good CPU - Compute databases,Big Data.
+        - M applications that are balanced (think "medium") general webapp.
+        - I applications that need good local I/O (instance storage) databases.
+        - G applications that needs a GPU - video rendering/machine learning.
+        - T2/T3: burstable instances (up to a capactiy).
+        - https://instances.vantage.sh/?filter=m4&cost_duration=annually&reserved_term=yrTerm1.allUpfront
+        - burst is boost of power, if the credits are gone,CPU gets terrible.
+        - use cloudwatch the credit usage.
+        - T2/T3 Unlimited burst credit balance.
+
+# AMI
+    - Amazon Machine Image, these can be customised at runtime using EC2 User Data.
+    - AMI's can be used for Linux/Windows.
+        - Faster Boost time.
+        - Pre installed packages.
+        - Control of Maintenacne and update
+        - Security concerns - control over the machines in the network.
+        - Machine comes configured with monotoring / enterprise software.
+        - Installing your app ahead of time (for faster deploys when auto-scaling)
+        - Using someone's else's AMI that is optimised for running an app,DB,etc.
+    - Public AMIS can be found on Amazon Marketplace.
+    - Your AMI take space and they live in S3.
+    - By default AMI's are private and locked for your account , specific region.
+    - You get charged for the actual space in takes in Amazon S3.
+    - Make sure to remove the AMIs you don't use.
+    - Sharing an AMI does not affec the ownership of the AMI.
+    - You can share AMI to another account.
+    - You can't copy an AMI with associated billingProduct code that was shared to  you from another account.If you want to copy,create a EC2 instance , launch it and then make a AMI from this.
+    - If they do copy AMI to another region they become the owner of the AMI.
+    - To avoid copy of AMI, you don't grant S3 or EBS permission.
+    - If they make an AMI from this shared AMI, they have the AMI. 
+    
+# Placement Groups
+    - To control the EC2 instances placement strategy in AWS infrastructure.
+    - Three Strategies:
+        - Cluster - low latency group, High Performance , High Risk. 
+            -  Same Rack,Same AZ.
+            - If Rack fails, all instances fail at the same time.
+            - Greate network,useful for big data job,extreme low latency, high bandwidth.
+        - Spread - spreads instances across underlying hardware ( max 7 per AZ) - critical apps.
+            - Minimise the risk, located in different hardware.
+            - Reduce risk of hardware failure.
+            - Applications maximise of high availability.
+            - Critical applications , isolate from failure.
+        - Partition - spreads instances across many different paritions, they rely on different set of racks. Scales to 100 of EC2 instances in group.
+            - Each partition different types of instances.
+            - across the partition no failure.
+            - They are placed in single rack.
+            - Upto 7 partitions per AZ
+            - Upto 100 EC2 instances.
+            - Partition failure will affect many instances in that partition.
+            - Distributed Big Data applciations such as HDFS,HBase,Cassandra,Kafka usecases.
+            - The instance in partition don't share racks with the another instance in other partition.
+
