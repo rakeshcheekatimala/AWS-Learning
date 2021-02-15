@@ -312,6 +312,21 @@
         - ALB it's always on, No charges for inter AZ data
         - NLB it's disabled by default
             - You pay for inter AZ data transfer.
+    - SS/TLS Basics
+        - SSL refers to Secure Socket Layer , used to encrypt connections
+        - TLS referes to Transport Layer Security.
+        - Public SSL certificates are issued by CA.
+        - Certificates have a expiry date, must be renewed.
+        - Certificates are managed by ACM (AWS Certificate Manager).
+    - SNI (Server Name Indication)
+        - Solves the problem of loading the right certificate when you have multiple SSL certificates onto one web server.
+        - client will indicate the hostname of the target server in the initial SSL handshake
+        - Only works for ALB & NLB, CloudFront. 
+    - ELB - Connnection Draining
+        - CLB conection draining
+        - ALB Deregristration draining.
+        - Stops sending new requests to the isntance which is deregistering.
+        - default is 300, min 1 max - 3600. To disable we can set 0.
 
 # Why use an EC2 Load Balancer?
     - Managed Service, AWS guarantees that it will be working.
@@ -320,4 +335,17 @@
     - Integrated with many AWS services.
 
 
-
+# ASG 
+    - Scale out & Scale in based on load. 
+    - Define min & max of machines running. 
+    - Desire capacity - Actual size , Minimum Size .
+    - LB work directly with ASG.
+    - Launch configuration or Launch Templates
+        - AMI
+        - EC2 User Data, EBS, SG , SSH Key Pair
+        - Subnet information
+        - Load Balancer Information
+        - Scaling Policies such as No of Requests per instance, CPU Usage, Average Network In, Average Network Out
+    - Auto Scaling Alarms to trigger ASG on Cloudwatch alarms based on metrics.
+    - IAM roles attached to an ASG will get assigned to EC2 instances.
+    - ASG can terminate instance marked as unhealthy by an LB.
