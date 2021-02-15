@@ -253,3 +253,71 @@
     - Not supported for bare metal instances.
     - Available for On-Demand and Reserved Instances.
     - Hibernate can't more than 60 days.
+
+# Scalability
+    - Mechanism to handle greater loads
+    - Two types
+        - Vertical 
+            - increases the size of instance
+            - common for database use cases
+            - hardware limit when you want to scale
+        - Horizontal
+            - increase the no of instances. ( Scale out - increase no of instances, Scale in- decrease no of instances.)
+            - distributed systems.
+
+# High Availability
+    - To achieve this you need to place your app in two different AZ's to avoid disaster.
+    - Helpt to avoid data center loss.
+
+# Load Balacning
+    - Helps to distribute your traffice to  to multiple servers.
+    - Expose a single point of access (DNS) to your application.
+    - Handle seamlessly failures of downstream instances.
+    - Regular health checks to your instances.
+    - Provide SSL termination (HTTPS) for your websites.
+    - Enfore stickiness with cookies
+    - High availability acroos zones.
+    - Sepearate public traffic from private traffic.
+    - Health Checks
+        - checks for every 5 -10 seconds based on your configuration
+        - verify the /health route sends 200 response when called before sending the traffic.
+    - 3 types of Load Balancers
+        - Classic Load Balancer (CLB)
+            - old generation - 2009 HTTP, HTTPS,TCP
+        - Application LB (ALB)
+            - HTTP, HTTPS, Websocket. 2016
+            - Routing based on target groups ex (example/users , example/posts)
+            - ALB is best fit for microservices
+            - Routing based on hostname in URL (one.example.com & other.example.com)
+            - Port mapping feature to redirect to dyanmic port in ECS.
+            - Support for Docker & ECS.
+            - Application servers don't see the IP of the client directly.
+            - IP of the client is inserted in the header of X-Forwarded-for
+            - For the port we can use (X-Forwarded-Port) or (X-Forwarded-Proto)
+        - Network LB(NLB)
+            - TCP, TLS & UDP. 2017
+            - Extremely fast , handle millons of per secons
+            - Latency ~100ms (vs 400ms for ALB).
+            - one static IP per AZ 
+    - LB can be private or public based on your needs to expose or not.
+    - Troubleshooting
+        - 4xx errors are client induced errors.
+        - 5xx errors are application induced errors.
+        - 503 error means at capactiy or no registered target.
+    - Load Balancer Stickiness
+        - Works for CLB & ALB
+        - same client is always redirected to the same instance.
+    - Cross Zone Load Balancing distributes the load evenly across all registered instances in all AZ.
+        - CLB it's disabled.
+        - ALB it's always on, No charges for inter AZ data
+        - NLB it's disabled by default
+            - You pay for inter AZ data transfer.
+
+# Why use an EC2 Load Balancer?
+    - Managed Service, AWS guarantees that it will be working.
+    - AWS takes cares of upgrades, maintenance.
+    - Less cost to setup your own load balancer.
+    - Integrated with many AWS services.
+
+
+
