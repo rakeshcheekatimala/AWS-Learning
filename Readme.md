@@ -349,3 +349,18 @@
     - Auto Scaling Alarms to trigger ASG on Cloudwatch alarms based on metrics.
     - IAM roles attached to an ASG will get assigned to EC2 instances.
     - ASG can terminate instance marked as unhealthy by an LB.
+    - Target Tracking Scaling
+        - I want the average ASG CPU to stay at around 40%.
+    - Step Scaling
+        - When a Cloudwatch alarm is trigerred (ex CPU>70%) then add 2 units.
+        - When a Cloudwatch alarm is trigerred (ex CPU<30%) then remove
+    - Scheduled Actions
+        - Antipicate  a scaling based on known usage patterns.
+        - Increase the min capactiy to 10 at 5pm on Friday.
+    - Scaling Cooldowns
+        - This ensures ASG does not launch or terminate additional instance before the previous scaling activity takes effect.
+        - In addition to default cooldown for ASG, we can apply to specific simple scaling policy.
+        - This will override the default cool down policy.
+        - Default cooldown is 300 seconds , we can reduce to 180 by changing the policy.
+        - If you app is scaling up & down multiple times each hour, modify the ASG cool-down timers and Cloudwatch logs metric that triggers the scale in.
+    - 
