@@ -363,4 +363,23 @@
         - This will override the default cool down policy.
         - Default cooldown is 300 seconds , we can reduce to 180 by changing the policy.
         - If you app is scaling up & down multiple times each hour, modify the ASG cool-down timers and Cloudwatch logs metric that triggers the scale in.
-    - 
+    - Default Termination Policy
+        - Find the AZ which has the most no of instances
+        - If there are multiple instances in the AZ to choose from, delete the one with the oldest configuraiton.
+       - ASG tries the balance no of instances across AZ by default.
+    - Lifecycle Hooks
+        - Ability to install what you need can be decided during Pending State.
+        - Once it's ready it will move to In Service.
+        - Before Terminated State the instance has life cycle hook called terminating 
+    - Template vs Configruation
+        - Launch configuration is legacy and must be recreated every time.
+        - Launch Template is newer way.
+            - On Demand  and Spot instances or mix of both for provision.
+            - Can use T2 burstable feature.
+
+# EC2 - Storage
+    - EBS
+        - An EC2 machine loses its root volume (main drive) when it is manually terminated.
+        - Unexpected terminations might happen from time to time (AWS would email you).
+        - Sometimes, you need a way to store your instance data somewhere.
+        - Network Drive to attach for a running instance to store data.
